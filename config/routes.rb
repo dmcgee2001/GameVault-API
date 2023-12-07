@@ -4,4 +4,8 @@ Rails.application.routes.draw do
 
   # Session Routes
   post "/sessions" => "sessions#create"
+
+  # Game Routes
+  get "/games" => "games#index"
+  get "/games/:id" => "games#show"
 end
