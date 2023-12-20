@@ -35,4 +35,14 @@ class GamesController < ApplicationController
   rescue HTTP::Error, JSON::ParserError => my_errors
     render json: { error: my_errors.message }, status: :unprocessable_entity
   end
+
+  def index
+    @games = Game.all
+    render :index
+  end
+
+  def show
+    @game = Game.find_by(id: params[:id])
+    render :show
+  end
 end
