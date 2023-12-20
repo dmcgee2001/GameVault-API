@@ -55,7 +55,10 @@ class GamesController < ApplicationController
 
         if description_response.code == 200
           game_description = JSON.parse(description_response.body)
-          @game.description = game_description["description"]
+          clean_description = ActionController::Base.helpers.strip_tags(game_description["description"])
+          clean_description = clean_description.gsub(/\n/, "").strip
+
+          @game.description = clean_description
           @game.save!
         else
           Rails.logger.error("Failed to fetch description for game ID: #{params[:id]}")
