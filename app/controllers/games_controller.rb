@@ -79,4 +79,14 @@ class GamesController < ApplicationController
       description: params["description"],
     )
   end
+
+  def update
+    @game = Game.find_by(id: params[:id])
+    @game.update(
+      name: params["name"] || @game.name,
+      released: params["released"] || @game.released,
+      background_image: params["background_image"] || @game.background_image,
+      description: params["description"] || @game.description,
+    )
+  end
 end
