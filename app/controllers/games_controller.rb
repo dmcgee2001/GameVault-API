@@ -43,6 +43,28 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find_by(id: params[:id])
+
+    if @game.nil?
+      render json: { error: "Game not found" }, status: :not_found
+      return
+    end
+
+    if @game.description.nil? || @game.description.empty?
+      begin
+        description_response = HTTP.get("https://api.rawg.io/api/games/#{params[:id]}?key=#{ENV["GAME_API_KEY"]}")
+
+        if description_response.code == 200
+          game_description = JSON.parse(description_response.body)
+          @game.description = game_description["description"]
+          @game.save!
+        else
+          Rails.logger.error("Failed to fetch description for game ID: #{params[:id]}")
+        end
+      rescue StandardError => e
+        Rails.logger.error("Error fetching description for game ID #{params[:id]}: #{e.message}")
+      end
+    end
+
     render :show
   end
 end
