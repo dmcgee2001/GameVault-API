@@ -78,6 +78,7 @@ class GamesController < ApplicationController
       background_image: params["background_image"],
       description: params["description"],
     )
+    render :show
   end
 
   def update
@@ -88,5 +89,6 @@ class GamesController < ApplicationController
       background_image: params["background_image"] || @game.background_image,
       description: params["description"] || @game.description,
     )
+    render :show
   end
 end
