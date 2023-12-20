@@ -51,7 +51,7 @@ class GamesController < ApplicationController
 
     if @game.description.nil? || @game.description.empty?
       begin
-        description_response = HTTP.get("https://api.rawg.io/api/games/#{params[:id]}?key=#{ENV["GAME_API_KEY"]}")
+        description_response = HTTP.get("https://api.rawg.io/api/games/#{@game.api_id}?key=#{ENV["GAME_API_KEY"]}")
 
         if description_response.code == 200
           game_description = JSON.parse(description_response.body)
