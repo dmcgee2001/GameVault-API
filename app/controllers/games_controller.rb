@@ -70,4 +70,13 @@ class GamesController < ApplicationController
 
     render :show
   end
+
+  def create
+    @game = Game.new(
+      name: params["name"],
+      released: params["released"],
+      background_image: params["background_image"],
+      description: params["description"],
+    )
+  end
 end
