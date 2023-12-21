@@ -11,9 +11,9 @@ class CollectionsController < ApplicationController
       user_id: current_user.id,
       game_id: params[:game_id],
     )
-    @collection.save
-    if @collection.valid?
-      render :show
+
+    if @collection.save
+      render json: @collection.as_json
     else
       render json: { errors: @collection.errors.full_messages }, status: :unprocessable_entity
     end
