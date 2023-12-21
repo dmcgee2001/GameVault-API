@@ -20,14 +20,14 @@ class GamesController < ApplicationController
             game.save!
           rescue StandardError => e
             Rails.logger.error("Failed to save game #{game_data["name"]}: #{e.message}")
-            next # Continue to the next game if there's an error
+            next
           end
         end
 
         page_number += 1
       else
         render json: { error: "Failed to fetch games from the API" }, status: :unprocessable_entity
-        break # Break the loop if there's an error in fetching data
+        break
       end
     end
 
