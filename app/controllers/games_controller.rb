@@ -78,7 +78,12 @@ class GamesController < ApplicationController
       background_image: params["background_image"],
       description: params["description"],
     )
-    render :show
+    @game.save
+    if @game.valid?
+      render :show
+    else
+      render json: { errors: @game.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def update
@@ -89,6 +94,16 @@ class GamesController < ApplicationController
       background_image: params["background_image"] || @game.background_image,
       description: params["description"] || @game.description,
     )
-    render :show
+    if @game.valid?
+      render :show
+    else
+      render json: { errors: @game.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    game = Game.find_by(id: params["id"])
+    game.delete
+    render json: { message: "successfully deleted" }
   end
 end
