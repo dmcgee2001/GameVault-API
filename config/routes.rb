@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   # Game Routes
   get "/games-fetch" => "games#fetch_data"
+  get "/data-fetch" => "games#populate_descriptions"
   get "/games/:id" => "games#show"
   get "/games" => "games#index"
   post "/games" => "games#create"

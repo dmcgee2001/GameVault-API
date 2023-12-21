@@ -106,4 +106,29 @@ class GamesController < ApplicationController
     game.delete
     render json: { message: "successfully deleted" }
   end
+
+  def populate_descriptions
+    games_without_descriptions = Game.where(description: [nil, ""])
+
+    games_without_descriptions.each do |game|
+      begin
+        description_response = HTTP.get("https://api.rawg.io/api/games/#{game.api_id}?key=#{ENV["GAME_API_KEY"]}")
+
+        if description_response.code == 200
+          game_description = JSON.parse(description_response.body)
+          clean_description = ActionController::Base.helpers.strip_tags(game_description["description"])
+          clean_description = clean_description.gsub(/\n/, "").strip
+
+          game.description = clean_description
+          game.save!
+        else
+          Rails.logger.error("Failed to fetch description for game ID: #{game.id}")
+        end
+      rescue StandardError => e
+        Rails.logger.error("Error fetching description for game ID #{game.id}: #{e.message}")
+      end
+    end
+
+    render json: { message: "Descriptions populated for games successfully" }
+  end
 end
