@@ -1,4 +1,19 @@
 class GamesController < ApplicationController
+  before_action :set_game, only: [:update, :destroy]
+  before_action :authenticate_user, only: [:create, :update, :destroy]
+  before_action :authorize_user, only: [:update, :destroy]
+
+  def authorize_user
+    unless @game.user == current_user
+      render json: { error: "You are not authorized to perform this action." }, status: :forbidden
+    end
+  end
+
+  def set_game
+    @game = Game.find_by(id: params[:id])
+    render json: { error: "Game not found" }, status: :not_found unless @game
+  end
+
   def fetch_data
     page_number = 1
     page_limit = 100
@@ -77,6 +92,7 @@ class GamesController < ApplicationController
       released: params["released"],
       background_image: params["background_image"],
       description: params["description"],
+      user_id: current_user.id,
     )
     @game.save
     if @game.valid?
@@ -93,6 +109,7 @@ class GamesController < ApplicationController
       released: params["released"] || @game.released,
       background_image: params["background_image"] || @game.background_image,
       description: params["description"] || @game.description,
+      user_id: current_user.id,
     )
     if @game.valid?
       render :show

@@ -41,6 +41,7 @@ gem "rack-cors"
 gem "jwt"
 gem "http"
 gem "seed_dump"
+gem "will_paginate"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
