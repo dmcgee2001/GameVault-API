@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:update, :destroy]
   before_action :authenticate_user, only: [:create, :update, :destroy]
-  before_action :authorize_user, only: [:update, :destroy]
+  # before_action :authorize_user, only: [:update, :destroy]
 
   def user_index
     @games = Game.where(user_id: current_user.id)
