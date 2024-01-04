@@ -11,14 +11,14 @@ class ReviewsController < ApplicationController
 
   def create
     @review = Review.new(
-      user: current_user,
+      user_id: current_user.id,
       title: params[:title],
       text: params[:text],
     )
     if @review.save
       render :show
     else
-      render json: { errors: @game.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: @review.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -38,7 +38,7 @@ class ReviewsController < ApplicationController
 
   def destroy
     review = Review.find_by(id params[:id])
-    review.delete
+    review&.destroy
     render json: { message: "Review has been successfully deleted." }
   end
 end
