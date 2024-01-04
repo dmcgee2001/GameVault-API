@@ -1,6 +1,8 @@
 # Game Library API
 
 This is a Ruby on Rails API for managing a game library. It utilizes the RAWG API to seed initial data into the database. Users can manage their game collections by adding, updating, and deleting games.
+
+*THIS IS STILL BEING WORKED ON*
 ![gamevault](gamevault.png)
 
 ## Table of Contents
