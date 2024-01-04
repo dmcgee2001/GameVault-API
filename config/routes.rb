@@ -21,4 +21,11 @@ Rails.application.routes.draw do
   post "/collections" => "collections#create"
   patch "/collections/:id" => "collections#update"
   delete "/collections/:id" => "collections#destroy"
+
+  # Review Routes
+  get "/reviews/:id" => "reviews#show"
+  get "/reviews" => "reviews#index"
+  post "/reviews" => "reviews#create"
+  patch "/reviews/:id" => "reviews#update"
+  delete "/reviews/:id" => "reviews#destroy"
 end
